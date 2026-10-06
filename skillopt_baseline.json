@@ -1,0 +1,60 @@
+{
+  "skill_file": "skills/skill_v0_baseline.md",
+  "runs": [
+    {
+      "id": "q1",
+      "question": "October me gamlay me palak kaise lagayen?",
+      "answer": "Taza pani 2 baar lagao, subah ke waqt aur raat bhar.",
+      "facts_used": [
+        "Palak"
+      ],
+      "secs": 50.8,
+      "error": null
+    },
+    {
+      "id": "q2",
+      "question": "Dhania ko kitna pani dena chahiye?",
+      "answer": "Khabar! Ye sawal kitab mein nahi hai. Buntu! Ye sawal nursey wale se chahiye!",
+      "facts_used": [
+        "Dhania"
+      ],
+      "secs": 33.7,
+      "error": null
+    },
+    {
+      "id": "q3",
+      "question": "Kya July me tamatar laga sakte hain Karachi me?",
+      "answer": "Ye nahi. July me Karachi phoolon mein khatra hai. Buntu hai.",
+      "facts_used": [
+        "Matar",
+        "Tamatar"
+      ],
+      "secs": 43.3,
+      "error": null
+    },
+    {
+      "id": "q4",
+      "question": "Chicken biryani banane ka tareeqa batao.",
+      "answer": null,
+      "facts_used": [],
+      "secs": 75.1,
+      "error": "timed out"
+    },
+    {
+      "id": "q5",
+      "question": "When should I plant carrots in Karachi?",
+      "answer": null,
+      "facts_used": [],
+      "secs": 75.1,
+      "error": "timed out"
+    },
+    {
+      "id": "q6",
+      "question": "Karachi me sab se saste beej kahan se milenge?",
+      "answer": "Bazar se.",
+      "facts_used": [],
+      "secs": 53.1,
+      "error": null
+    }
+  ]
+}

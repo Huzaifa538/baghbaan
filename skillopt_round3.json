@@ -1,0 +1,62 @@
+{
+  "skill_file": "skills/skill_v3_fewshot.md",
+  "runs": [
+    {
+      "id": "q1",
+      "question": "October me gamlay me palak kaise lagayen?",
+      "answer": "Bone ke maheene: Sitambar, Aktobar. October NAHI HAI.",
+      "facts_used": [
+        "Palak"
+      ],
+      "secs": 44.8,
+      "error": null
+    },
+    {
+      "id": "q2",
+      "question": "Dhania ko kitna pani dena chahiye?",
+      "answer": "Pani: Mitti halki nami wali rakho.",
+      "facts_used": [
+        "Dhania"
+      ],
+      "secs": 32.8,
+      "error": null
+    },
+    {
+      "id": "q3",
+      "question": "Kya July me tamatar laga sakte hain Karachi me?",
+      "answer": "Ye sawal meri kitab me nahi hai — baghbani ka sawal poocho.",
+      "facts_used": [
+        "Matar",
+        "Tamatar"
+      ],
+      "secs": 58.3,
+      "error": null
+    },
+    {
+      "id": "q4",
+      "question": "Chicken biryani banane ka tareeqa batao.",
+      "answer": "Ye sawal meri kitab me nahi hai — baghbani ka sawal poocho.",
+      "facts_used": [],
+      "secs": 94.3,
+      "error": null
+    },
+    {
+      "id": "q5",
+      "question": "When should I plant carrots in Karachi?",
+      "answer": "Bone ke maheene ye hain: Aktobar, Navambar. Karachi mein ye toonah bhi hota hai, ye sawal meri kitab me nahi hai — baghbani ka sawal poocho.",
+      "facts_used": [
+        "Gajar"
+      ],
+      "secs": 44.1,
+      "error": null
+    },
+    {
+      "id": "q6",
+      "question": "Karachi me sab se saste beej kahan se milenge?",
+      "answer": "Taza beej ke liye apne bazar se dekhna!",
+      "facts_used": [],
+      "secs": 42.2,
+      "error": null
+    }
+  ]
+}

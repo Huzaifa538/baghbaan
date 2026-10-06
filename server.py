@@ -83,11 +83,22 @@ def dataset_answer(dataset, question):
     return " ".join(l for l in lines if l)
 
 
+# SKILL_VERSION: v2-procedure (SkillOpt-style loop winner, baseline 4/12 -> 6/12).
+# Full text + round notes: best_skill.md
 SYSTEM_PROMPT = """Tum Baghbaan ho — Karachi ke kitchen garden ka dostana ustad.
-Sirf Roman Urdu me jawab do. Lehja garam, seedha, insano wala — koi robotic jumla nahi.
-Tumhe neeche KITABI MALOOMAT di gayi hai. Jawab SIRF isi maloomat ki bunyad par do — apne se naye tath (facts) mat gharo.
-Agar sawal maloomat se bahar ho, to seedha kaho ke ye mere kitab me nahi, nursery wale se poocho.
-Jawab chota rakho (4-5 jumle)."""
+TUM BUNTU NAHI HO. Apne jawab me "Buntu" lafz kabhi mat likho — na shuru me, na beech me, na akhir me.
+Sirf Roman Urdu me jawab do. Lehja garam, seedha, insano wala.
+
+Tumhe KITABI MALOOMAT me faslon ki satrein di gayi hain. Har sawal ka jawab INHI satron se banao:
+
+QADAM 1 — Fasal pehchano: sawal me jis fasal ka naam hai, maloomat me usi ki satar dhoondo.
+QADAM 2 — Sawal ki qism:
+  (a) "Kaise lagayen / kaise ugayen" → us fasal ki satar se chaar cheezein nikalo aur jor kar batao: bone ke MAHEENE, JAGAH (gamla/balcony/zameen), PANI, MASHWARA.
+  (b) "Kya [maheena] me [fasal] laga sakte hain?" → us maheene ko fasal ke BONE-KE-MAHEENE ki list se milao. List me hai to "haan" kaho, nahi hai to "nahi" kaho AUR sahi maheene ginwao.
+  (c) "Kitna/kab pani" → us fasal ki satar me PANI wali satar lafz-ba-lafz do.
+QADAM 3 — Inkar SIRF tab karo jab sawal me koi fasal ka naam hi na ho AUR sawal baghbani ka bhi na ho (masalan khana pakana, dukanein, qeematein). Inkar ka jumla: "Ye sawal meri kitab me nahi hai — baghbani ka sawal poocho."
+
+Jawab chota rakho (4-5 jumle). Kabhi naye tath mat gharo — maheene, din aur miqdar hamesha maloomat se lo."""
 
 
 def ask_model(question, dataset):
@@ -98,13 +109,22 @@ def ask_model(question, dataset):
 
     crops = find_relevant_crops(dataset, question)
     facts = []
-    for c in crops or dataset["crops"]:
-        months = ", ".join(dataset["months"][m - 1]["roman"] for m in c["sow_months"])
-        facts.append(
-            f"- {c['name']} ({c['name_en']}): bone ka maheene {months}; "
-            f"tayyari {c['harvest_days']}; jagah {', '.join(c['space'])}; "
-            f"pani: {c['water']}; mashwara: {c['tip']}"
-        )
+    if crops:
+        # Focused question: inject full facts for the matched crops only.
+        for c in crops:
+            months = ", ".join(dataset["months"][m - 1]["roman"] for m in c["sow_months"])
+            facts.append(
+                f"- {c['name']} ({c['name_en']}): bone ka maheene {months}; "
+                f"tayyari {c['harvest_days']}; jagah {', '.join(c['space'])}; "
+                f"pani: {c['water']}; mashwara: {c['tip']}"
+            )
+    else:
+        # No crop matched (general or off-topic question): keep the prompt
+        # short — a compact crop list + general tips is enough for the model
+        # to decide whether it can answer or must decline.
+        names = ", ".join(c["name"] for c in dataset["crops"])
+        facts.append(f"Kitab me ye faslein hain: {names}.")
+        facts.extend("Aam usool: " + t for t in dataset["meta"]["general_tips"])
     facts.append("Pani ka usool (October): " + dataset["meta"]["watering_october"])
 
     body = {
