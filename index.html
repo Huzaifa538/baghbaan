@@ -32,6 +32,15 @@ tailwind.config = {
   @keyframes blink { 0%,100%{opacity:.25} 50%{opacity:1} }
   .hero-leaf { position:absolute; opacity:.5; pointer-events:none; }
   ::selection { background:#c2703e; color:#faf6ec; }
+  .reveal { opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+  @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1; transform:none; transition:none; } }
+  .sug-chip { font-size:12px; padding:6px 14px; border-radius:999px; border:1px solid rgba(250,246,236,.35); color:rgba(250,246,236,.85); transition:all .18s ease; }
+  .sug-chip:hover { background:rgba(250,246,236,.15); border-color:rgba(250,246,236,.6); }
+  .sug-chip:active { transform:scale(.96); }
+  #calStrip::-webkit-scrollbar { height:6px; }
+  #calStrip::-webkit-scrollbar-thumb { background:#e0d3b3; border-radius:99px; }
+  #calStrip::-webkit-scrollbar-track { background:transparent; }
 </style>
 </head>
 <body class="antialiased">
@@ -62,13 +71,20 @@ tailwind.config = {
       <a href="#planner" class="px-6 py-3 rounded-full bg-leaf text-cream font-semibold hover:bg-ink transition">October ki fasal dekho ↓</a>
       <a href="#poocho" class="px-6 py-3 rounded-full border-2 border-leaf text-leaf font-semibold hover:bg-leaf hover:text-cream transition">Baghbaan se poocho</a>
     </div>
+    <div class="mt-10 flex items-center justify-center gap-6 sm:gap-10">
+      <div><p class="font-display font-bold text-3xl text-leaf"><span data-count="16">0</span></p><p class="text-moss text-xs mt-1">faslein</p></div>
+      <div class="w-px h-10 bg-sand"></div>
+      <div><p class="font-display font-bold text-3xl text-leaf"><span data-count="12">0</span></p><p class="text-moss text-xs mt-1">mahine ka calendar</p></div>
+      <div class="w-px h-10 bg-sand"></div>
+      <div><p class="font-display font-bold text-3xl text-leaf">Rs 0</p><p class="text-moss text-xs mt-1">hamesha, koi bill nahi</p></div>
+    </div>
   </div>
 </section>
 
 <!-- ══════════ PLANNER ══════════ -->
 <section id="planner" class="max-w-5xl mx-auto px-5 py-14">
-  <h2 class="font-display font-bold text-3xl sm:text-4xl">Is mahine kya bo'on?</h2>
-  <p class="text-moss mt-2">Mahina aur jagah chuno — baqi Baghbaan sambhal lega.</p>
+  <h2 class="reveal font-display font-bold text-3xl sm:text-4xl">Is mahine kya bo'on?</h2>
+  <p class="reveal text-moss mt-2">Mahina aur jagah chuno — baqi Baghbaan sambhal lega.</p>
 
   <div class="mt-6">
     <p class="text-xs font-semibold tracking-widest uppercase text-moss mb-2">Mahina</p>
@@ -81,7 +97,7 @@ tailwind.config = {
     <div id="spaces" class="flex flex-wrap gap-2"></div>
   </div>
 
-  <div id="crops" class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  <div id="crops" class="reveal mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
   <p id="noCrops" class="hidden mt-8 text-center text-moss italic">Is mahine is jagah ke liye kuch khaas nahi — mahina ya jagah badal kar dekho.</p>
 
   <div class="mt-10 rounded-2xl bg-sand/70 border border-sand p-5 flex gap-4 items-start">
@@ -90,16 +106,29 @@ tailwind.config = {
   </div>
 </section>
 
+<!-- ══════════ SAAL BHAR CALENDAR ══════════ -->
+<section id="calendar" class="max-w-5xl mx-auto px-5 pb-16">
+  <h2 class="reveal font-display font-bold text-3xl sm:text-4xl">Saal bhar ka calendar</h2>
+  <p class="reveal text-moss mt-2">Kisi mahine par click karo — planner wahi jump kar jayega.</p>
+  <div id="calStrip" class="reveal mt-6 flex gap-3 overflow-x-auto pb-3 -mx-5 px-5"></div>
+</section>
+
 <!-- ══════════ POOCHO (AI) ══════════ -->
 <section id="poocho" class="bg-leaf text-cream">
   <div class="max-w-3xl mx-auto px-5 py-16">
-    <p class="text-clay font-semibold tracking-widest text-xs uppercase mb-2">Tumhara sawal, Baghbaan ka jawab</p>
-    <h2 class="font-display font-bold text-3xl sm:text-4xl">Baghbaan se poocho</h2>
-    <p class="mt-2 text-cream/70">Masalan: <em>"gamlay me dhania kab lagana hai?"</em> — jawab tumhare apne computer par chalne wale AI model se aayega.</p>
+    <p class="reveal text-clay font-semibold tracking-widest text-xs uppercase mb-2">Tumhara sawal, Baghbaan ka jawab</p>
+    <h2 class="reveal font-display font-bold text-3xl sm:text-4xl">Baghbaan se poocho</h2>
+    <p class="reveal mt-2 text-cream/70">Masalan: <em>"gamlay me dhania kab lagana hai?"</em> — jawab tumhare apne computer par chalne wale AI model se aayega.</p>
 
     <div class="mt-6 rounded-2xl bg-cream text-ink p-2 flex flex-col sm:flex-row gap-2">
       <textarea id="q" rows="2" placeholder="Apna sawal yahan likho…" class="flex-1 bg-transparent px-4 py-3 outline-none resize-none placeholder:text-ink/40"></textarea>
       <button id="askBtn" class="px-6 py-3 rounded-xl bg-clay text-cream font-semibold hover:brightness-110 active:scale-95 transition shrink-0">Poocho →</button>
+    </div>
+    <div class="mt-3 flex flex-wrap gap-2">
+      <button class="sug-chip" data-q="October me palak kaise lagayen?">October me palak kaise lagayen?</button>
+      <button class="sug-chip" data-q="Gamle me dhania ke liye kitni mitti chahiye?">Gamle me dhania ke liye kitni mitti?</button>
+      <button class="sug-chip" data-q="Methi ko kitna pani chahiye?">Methi ko kitna pani chahiye?</button>
+      <button class="sug-chip" data-q="Balcony me kya ug sakta hai?">Balcony me kya ug sakta hai?</button>
     </div>
 
     <div id="answerWrap" class="hidden mt-5 rounded-2xl bg-cream/10 border border-cream/20 p-6 fade-in">
@@ -107,8 +136,9 @@ tailwind.config = {
         <span id="srcBadge" class="text-[11px] font-bold px-2.5 py-1 rounded-full"></span>
         <span class="text-cream/60 text-xs">Baghbaan</span>
       </div>
-      <div id="thinking" class="hidden thinking-dots py-2"><span></span><span></span><span></span><span class="text-cream/60 text-sm ml-1">soch raha hai…</span></div>
+      <div id="thinking" class="hidden thinking-dots py-2"><span></span><span></span><span></span><span id="thinkTimer" class="text-cream/60 text-sm ml-1">soch raha hai…</span></div>
       <p id="answer" class="leading-relaxed text-cream/95"></p>
+      <button id="copyBtn" class="hidden mt-3 text-xs font-medium px-3.5 py-1.5 rounded-full bg-cream/15 text-cream/85 hover:bg-cream/25 active:scale-95 transition">Jawab copy karo</button>
       <p id="notice" class="hidden mt-3 text-xs text-cream/60 italic"></p>
       <div id="factChips" class="mt-4 flex flex-wrap gap-2"></div>
     </div>
@@ -117,9 +147,9 @@ tailwind.config = {
 
 <!-- ══════════ OFFLINE ══════════ -->
 <section class="max-w-5xl mx-auto px-5 py-16">
-  <h2 class="font-display font-bold text-3xl sm:text-4xl text-center">Net gaya to? <span class="italic text-leaf">Koi baat nahi.</span></h2>
-  <p class="text-center text-moss mt-3 max-w-xl mx-auto">Baghbaan ka dimagh kisi company ke server par nahi — tumhare apne computer par chalta hai. Yehi is project ki jaan hai.</p>
-  <div class="mt-10 grid sm:grid-cols-3 gap-5">
+  <h2 class="reveal font-display font-bold text-3xl sm:text-4xl text-center">Net gaya to? <span class="italic text-leaf">Koi baat nahi.</span></h2>
+  <p class="reveal text-center text-moss mt-3 max-w-xl mx-auto">Baghbaan ka dimagh kisi company ke server par nahi — tumhare apne computer par chalta hai. Yehi is project ki jaan hai.</p>
+  <div class="reveal mt-10 grid sm:grid-cols-3 gap-5">
     <div class="rounded-2xl bg-white/60 border border-sand p-6 crop-card">
       <div class="w-11 h-11 rounded-xl bg-leaf text-cream flex items-center justify-center mb-4"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div>
       <h3 class="font-display font-bold text-lg">Apna model, apni machine</h3>
@@ -171,9 +201,9 @@ async function init(){
   // default to current month if we have it, else October
   const now = new Date().getMonth()+1;
   state.month = state.data.months.some(m=>m.id===now) ? now : 10;
-  renderMonths(); renderSpaces(); renderCrops();
+  renderMonths(); renderSpaces(); renderCrops(); renderCalStrip();
   $('waterTip').textContent = state.data.meta.watering_october;
-  checkHealth();
+  checkHealth(); observeReveals(); countUp();
 }
 
 function renderMonths(){
@@ -182,6 +212,7 @@ function renderMonths(){
   ).join('');
   $('months').querySelectorAll('button').forEach(b=>b.onclick=()=>{ state.month=+b.dataset.m; renderMonths(); renderCrops(); });
   $('monthMood').textContent = '“' + state.data.months.find(m=>m.id===state.month).mood + '”';
+  renderCalStrip();
 }
 
 function renderSpaces(){
@@ -192,26 +223,84 @@ function renderSpaces(){
   $('spaces').querySelectorAll('button').forEach(b=>b.onclick=()=>{ state.space=b.dataset.s; renderSpaces(); renderCrops(); });
 }
 
+function renderCalStrip(){
+  const el = $('calStrip');
+  el.innerHTML = state.data.months.map(m=>{
+    const n = state.data.crops.filter(c=>c.sow_months.includes(m.id)).length;
+    const active = m.id===state.month;
+    const dots = Array.from({length:Math.min(n,6)},()=>`<span class="w-1.5 h-1.5 rounded-full ${active?'bg-cream/70':'bg-clay'}"></span>`).join('')
+      || '<span class="text-[11px] opacity-60">—</span>';
+    return `<button data-m="${m.id}" class="shrink-0 w-28 rounded-2xl border p-3 text-left transition hover:-translate-y-0.5 ${active?'bg-leaf text-cream border-leaf shadow-lg':'bg-white/70 border-sand'}">
+      <p class="font-display font-bold text-lg leading-tight">${m.roman}</p>
+      <p class="text-xs mt-0.5 ${active?'text-cream/70':'text-moss'}">${n} faslein</p>
+      <div class="mt-2 flex gap-1">${dots}</div>
+    </button>`;
+  }).join('');
+  el.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    state.month=+b.dataset.m; renderMonths(); renderCrops();
+    document.getElementById('planner').scrollIntoView({behavior:'smooth'});
+  });
+}
+
+// Urgency tag: chune hue mahine ka bone wali khirki me maqam
+function sowTag(c){
+  const w = [...c.sow_months].sort((a,b)=>a-b);
+  if(w.length>1 && state.month===w[0]) return {t:'Mausam shuru', cls:'bg-sage text-leaf'};
+  if(w.length>1 && state.month===w[w.length-1]) return {t:'Akhri mauqa', cls:'bg-clay/15 text-clay'};
+  return {t:"Abhi bo'o", cls:'bg-sage text-leaf'};
+}
+// Jitni jaldi tayyar — utni bhari patti
+function harvestPct(c){
+  const d = parseInt(c.harvest_days)||45;
+  return Math.max(14, Math.min(100, Math.round(115-d)));
+}
+
+// Scroll par halki si reveal animation
+const io = new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+}),{threshold:.12});
+function observeReveals(){ document.querySelectorAll('.reveal:not(.visible)').forEach(el=>io.observe(el)); }
+
+// Hero stats ke liye gin-ti wali animation
+function countUp(){
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const target=+el.dataset.count, t0=performance.now(), dur=1000;
+    (function tick(t){
+      const p=Math.min((t-t0)/dur,1), e=1-Math.pow(1-p,3);
+      el.textContent=Math.round(target*e);
+      if(p<1) requestAnimationFrame(tick);
+    })(t0);
+  });
+}
+
 function renderCrops(){
   const list = state.data.crops.filter(c =>
     c.sow_months.includes(state.month) && (state.space==='sab' || c.space.includes(state.space))
   );
   $('noCrops').classList.toggle('hidden', list.length>0);
-  $('crops').innerHTML = list.map((c,i)=>`
+  $('crops').innerHTML = list.map((c,i)=>{
+    const tag = sowTag(c), pct = harvestPct(c);
+    return `
     <article class="crop-card fade-in rounded-2xl bg-white/70 border border-sand p-5" style="animation-delay:${Math.min(i*60,400)}ms">
-      <div class="flex items-start justify-between">
+      <div class="flex items-start justify-between gap-2">
         ${iconFor(c)}
-        <span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${c.level==='Asaan'?'bg-sage text-leaf':'bg-sand text-clay'}">${c.level}</span>
+        <div class="flex flex-col items-end gap-1.5">
+          <span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${c.level==='Asaan'?'bg-sage text-leaf':'bg-sand text-clay'}">${c.level}</span>
+          <span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${tag.cls}">${tag.t}</span>
+        </div>
       </div>
       <h3 class="font-display font-bold text-2xl mt-3">${c.name}</h3>
       <p class="text-xs text-moss uppercase tracking-wider">${c.name_en}</p>
       <dl class="mt-4 space-y-1.5 text-sm">
         <div class="flex gap-2"><dt class="text-moss w-16 shrink-0">Bo'o</dt><dd class="font-medium">${sowLabel(c)}</dd></div>
-        <div class="flex gap-2"><dt class="text-moss w-16 shrink-0">Tayyar</dt><dd>${c.harvest_days} me</dd></div>
         <div class="flex gap-2"><dt class="text-moss w-16 shrink-0">Pani</dt><dd>${c.water}</dd></div>
       </dl>
+      <div class="mt-4">
+        <div class="flex justify-between text-xs mb-1.5"><span class="text-moss">Fasal tayyar</span><span class="font-semibold">≈ ${c.harvest_days}</span></div>
+        <div class="h-1.5 rounded-full bg-sand overflow-hidden"><div class="h-full rounded-full bg-leaf" style="width:${pct}%"></div></div>
+      </div>
       <p class="mt-3 text-sm italic text-ink/75 border-l-2 border-clay pl-3">“${c.tip}”</p>
-    </article>`).join('');
+    </article>`;}).join('');
 }
 
 async function checkHealth(){
@@ -225,6 +314,16 @@ async function checkHealth(){
 
 $('askBtn').onclick = ask;
 $('q').addEventListener('keydown', e=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); ask(); }});
+// Tajweez-shuda sawal: click karo — box bharega aur sawal chal jayega
+document.querySelectorAll('.sug-chip').forEach(ch=>ch.addEventListener('click',()=>{ $('q').value=ch.dataset.q; ask(); }));
+// Jawab copy karne ka button
+$('copyBtn').onclick = async ()=>{
+  try{
+    await navigator.clipboard.writeText($('answer').textContent.trim());
+    $('copyBtn').textContent='Copy ho gaya ✓';
+    setTimeout(()=>$('copyBtn').textContent='Jawab copy karo',1800);
+  }catch(e){ $('copyBtn').textContent='Copy nahi hua — select karke copy karo'; }
+};
 
 async function ask(){
   const q = $('q').value.trim();
@@ -232,13 +331,19 @@ async function ask(){
   const wrap=$('answerWrap'), ans=$('answer'), badge=$('srcBadge'), chips=$('factChips'), notice=$('notice'), thinking=$('thinking');
   wrap.classList.remove('hidden'); thinking.classList.remove('hidden');
   ans.textContent=''; notice.classList.add('hidden'); chips.innerHTML='';
+  $('copyBtn').classList.add('hidden'); $('copyBtn').textContent='Jawab copy karo';
   badge.textContent='…'; badge.className='text-[11px] font-bold px-2.5 py-1 rounded-full bg-cream/20 text-cream';
   $('askBtn').disabled = true; $('askBtn').textContent = '…';
+  // Model dheere hai (~30-70s) — intezar me seconds dikhao
+  const t0 = Date.now();
+  $('thinkTimer').textContent = 'soch raha hai…';
+  const tick = setInterval(()=>{ $('thinkTimer').textContent = Math.floor((Date.now()-t0)/1000) + 's — model soch raha hai'; }, 500);
   try{
     const r = await fetch('/api/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q})});
     const d = await r.json();
     thinking.classList.add('hidden');
     ans.textContent = d.answer;
+    $('copyBtn').classList.remove('hidden');
     if(d.source==='model'){
       badge.textContent='🌱 Baghbaan AI · local model'; badge.className='text-[11px] font-bold px-2.5 py-1 rounded-full bg-green-400/25 text-green-200';
       chips.innerHTML = (d.facts_used||[]).map(f=>`<span class="text-[11px] px-2 py-1 rounded-full bg-cream/15 text-cream/80">📖 ${f}</span>`).join('');
@@ -250,7 +355,9 @@ async function ask(){
     thinking.classList.add('hidden');
     badge.textContent='📖 Kitabi maloomat'; badge.className='text-[11px] font-bold px-2.5 py-1 rounded-full bg-amber-400/25 text-amber-200';
     ans.textContent='Server se rabta nahi ho saka. Neeche diye gaye mahine ke hisab se faslen dekho — woh hamesha kaam karti hain.';
+    $('copyBtn').classList.remove('hidden');
   }finally{
+    clearInterval(tick);
     $('askBtn').disabled=false; $('askBtn').textContent='Poocho →';
     wrap.scrollIntoView({behavior:'smooth', block:'nearest'});
   }

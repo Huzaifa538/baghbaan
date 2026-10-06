@@ -35,6 +35,16 @@ Week 1 ka theme hai **"Touch Grass"** — aisi cheez banao jo logon ko screen se
 
 Agar model se rabta na ho (server down, slow), to app khamoshi se toot-ti nahi — dataset se seedha jawab deti hai aur chhota sa notice dikhati hai. Planner to waise bhi hamesha kaam karta hai.
 
+## Features
+
+- **Planner** — mahina + jagah chuno, dataset se instant suggestions (filter ke saath).
+- **Saal-bhar calendar strip** — 12 mahine ke cards (har mahine me kitni faslein bo sakti hain, chhote dots ke saath); click karo to planner wahi jump kar jata hai.
+- **Crop cards** — difficulty + urgency tag ("Abhi bo'o" / "Mausam shuru" / "Akhri mauqa", bone wali khirki ke hisab se) aur fasal-tayyar hone ka progress bar.
+- **"Baghbaan se poocho"** — tajweez-shuda sawalon ke chips (click = fill + submit), model ke jawab ka intezar me seconds ka ticker, aur jawab copy karne ka button. Jawab hamesha dataset-facts se grounded; `facts_used` chips batate hain kaun se facts istemal hue.
+- **Hero stats** — gin-ti wali animation (16 faslein · 12 mahine · Rs 0 hamesha).
+- **Scroll reveals** — halki fade+rise animation sections par (IntersectionObserver, reduced-motion ka khayal).
+- **Offline-first** — model local hai; na chale to dataset fallback + notice. App kabhi toot-ti nahi.
+
 ## Chalane ka tareeqa
 
 ```bash
